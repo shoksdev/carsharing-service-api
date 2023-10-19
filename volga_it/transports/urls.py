@@ -1,11 +1,12 @@
 from django.urls import path, include
 from rest_framework.routers import SimpleRouter
 
-from .views import TransportViewSet
+from .views import TransportListCreateView, TransportRetrieveUpdateDestroyView
 
-router = SimpleRouter()
-router.register(r'transports', TransportViewSet)
+# router = SimpleRouter()
+# router.register(r'transports', TransportViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('transports/', TransportListCreateView.as_view(), name='transport-list'),
+    path('transports/<int:pk>', TransportRetrieveUpdateDestroyView.as_view(), name='transport-object'),
 ]

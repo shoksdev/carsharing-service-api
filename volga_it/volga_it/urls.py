@@ -22,5 +22,7 @@ urlpatterns = [
     path('', include('rent.urls')),
     path('', include('payment.urls')),
     path('api-auth/', include('rest_framework.urls')),
+    path('auth/', include('djoser.urls')),  # Аутентификация, регистрация и др. Djoser-а
+    path('auth/', include('djoser.urls.authtoken')),
     path('admin/', admin.site.urls),
 ]

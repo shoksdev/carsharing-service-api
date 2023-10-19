@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -21,6 +22,7 @@ class Transports(models.Model):
                                       verbose_name='Цена аренды за минуту')
     dayPrice = models.DecimalField(default=0, max_digits=5, decimal_places=2, blank=True, null=True,
                                    verbose_name='Цена аренды за сутки')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Хозяин транспорта')
 
     def __str__(self):
         return f'{self.model} - {self.color}'

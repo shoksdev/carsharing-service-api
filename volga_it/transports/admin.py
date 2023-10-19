@@ -6,4 +6,4 @@ admin.site.register(Transports)
 
 
 class TransportsAdmin(admin.ModelAdmin):
-    list_display = ('model', 'color', 'identifier', 'latitude', 'longitude', 'minutePrice', 'dayPrice')
+    list_display = ('owner', 'model', 'color', 'identifier', 'latitude', 'longitude', 'minutePrice', 'dayPrice')

@@ -13,13 +13,13 @@ class Transports(models.Model):
     color = models.CharField(max_length=50, verbose_name='Цвет транспорта')
     identifier = models.CharField(max_length=20, verbose_name='Номерной знак')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
-    latitude = models.DecimalField(default=0, max_digits=4, decimal_places=4,
+    latitude = models.DecimalField(default=0, max_digits=5, decimal_places=2,
                                    verbose_name='Географическая широта местонахождения транспорта')
-    longitude = models.DecimalField(default=0, max_digits=4, decimal_places=4,
+    longitude = models.DecimalField(default=0, max_digits=5, decimal_places=2,
                                     verbose_name='Географическая долгота местонахождения транспорта')
-    minutePrice = models.DecimalField(default=0, max_digits=4, decimal_places=4, blank=True, null=True,
+    minutePrice = models.DecimalField(default=0, max_digits=5, decimal_places=2, blank=True, null=True,
                                       verbose_name='Цена аренды за минуту')
-    dayPrice = models.DecimalField(default=0, max_digits=4, decimal_places=4, blank=True, null=True,
+    dayPrice = models.DecimalField(default=0, max_digits=5, decimal_places=2, blank=True, null=True,
                                    verbose_name='Цена аренды за сутки')
 
     def __str__(self):

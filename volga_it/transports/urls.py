@@ -1,9 +1,11 @@
-from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import SimpleRouter
 
-# router = SimpleRouter()
-# router.register(r'users', views.UserViewSet)
+from .views import TransportViewSet
+
+router = SimpleRouter()
+router.register(r'transports', TransportViewSet)
 
 urlpatterns = [
-
+    path('', include(router.urls)),
 ]

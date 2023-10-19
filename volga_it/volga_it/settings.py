@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'transports.apps.TransportsConfig',
     'payment.apps.PaymentConfig',
     'rent.apps.RentConfig',
+    'rest_framework',
 
 ]
 

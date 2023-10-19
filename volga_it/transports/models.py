@@ -21,3 +21,6 @@ class Transports(models.Model):
                                       verbose_name='Цена аренды за минуту')
     dayPrice = models.DecimalField(default=0, max_digits=4, decimal_places=4, blank=True, null=True,
                                    verbose_name='Цена аренды за сутки')
+
+    def __str__(self):
+        return f'{self.model} - {self.color}'

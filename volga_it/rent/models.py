@@ -15,3 +15,6 @@ class Rent(models.Model):
     radius = models.DecimalField(default=0, max_digits=4, decimal_places=4,
                                  verbose_name='Радиус круга поиска транспорта')
     type = models.CharField(max_length=10, choices=TRANSPORT_TYPES, verbose_name='Тип транспорта')
+
+    def __str__(self):
+        return f'{self.lat}{self.long}'

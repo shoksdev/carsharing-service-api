@@ -9,3 +9,9 @@ class TransportsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transports
         fields = '__all__'
+
+
+class TransportsAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transports
+        fields = '__all__'

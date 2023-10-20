@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'transports.apps.TransportsConfig',
     'payment.apps.PaymentConfig',
     'rent.apps.RentConfig',
+    'users.apps.UsersConfig',
     'rest_framework',
     'djoser',
     'rest_framework.authtoken'

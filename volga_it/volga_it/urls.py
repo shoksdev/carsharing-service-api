@@ -18,9 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('transports.urls')),
-    path('', include('rent.urls')),
-    path('', include('payment.urls')),
+    path('api/', include('transports.urls')),
+    path('api/', include('rent.urls')),
+    path('api/', include('payment.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('auth/', include('djoser.urls')),  # Аутентификация, регистрация и др. Djoser-а
     path('auth/', include('djoser.urls.authtoken')),

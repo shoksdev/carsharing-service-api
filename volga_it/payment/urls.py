@@ -1,9 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 
-# router = SimpleRouter()
-# router.register(r'users', views.UserViewSet)
+from .views import payment_controller
 
 urlpatterns = [
-
+    path('payment/hesoyam/<int:pk>/', payment_controller, name='hesoyam'),
 ]

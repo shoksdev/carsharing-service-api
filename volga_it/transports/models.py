@@ -9,8 +9,8 @@ class Transports(models.Model):
         ('B', 'Bike'),
         ('S', 'Scooter')
     ]
-    canBeRented = models.BooleanField(default=False, verbose_name='Можно ли арендовать транспорт?')
-    transportType = models.CharField(max_length=10, choices=TRANSPORT_TYPES, verbose_name='Тип транспорта')
+    can_be_rented = models.BooleanField(default=False, verbose_name='Можно ли арендовать транспорт?')
+    transport_type = models.CharField(max_length=10, choices=TRANSPORT_TYPES, verbose_name='Тип транспорта')
     model = models.CharField(max_length=100, verbose_name='Модель транспорта')
     color = models.CharField(max_length=50, verbose_name='Цвет транспорта')
     identifier = models.CharField(max_length=20, verbose_name='Номерной знак')
@@ -19,10 +19,10 @@ class Transports(models.Model):
                                    verbose_name='Географическая широта местонахождения транспорта')
     longitude = models.DecimalField(default=0, max_digits=5, decimal_places=2,
                                     verbose_name='Географическая долгота местонахождения транспорта')
-    minutePrice = models.DecimalField(default=0, max_digits=5, decimal_places=2, blank=True, null=True,
-                                      verbose_name='Цена аренды за минуту')
-    dayPrice = models.DecimalField(default=0, max_digits=5, decimal_places=2, blank=True, null=True,
-                                   verbose_name='Цена аренды за сутки')
+    minute_price = models.DecimalField(default=0, max_digits=5, decimal_places=2, blank=True, null=True,
+                                       verbose_name='Цена аренды за минуту')
+    day_price = models.DecimalField(default=0, max_digits=5, decimal_places=2, blank=True, null=True,
+                                    verbose_name='Цена аренды за сутки')
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Хозяин транспорта')
 
     def __str__(self):

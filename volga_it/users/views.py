@@ -12,8 +12,8 @@ from transports.paginations import CustomPagination
 class AccountAPIView(generics.RetrieveAPIView):
     serializer_class = AccountSerializer
 
-    def get_queryset(self):
-        return CustomUser.objects.get(id=self.request.user.id)
+    def get_object(self):
+        return self.request.user
 
 
 class AccountAdminViewSet(viewsets.ModelViewSet):

@@ -9,7 +9,7 @@ from .permissions import TransportListPermission, TransportObjectPermission
 from .serializers import TransportsSerializer, TransportsAdminSerializer
 
 
-class TransportListCreateView(generics.ListCreateAPIView):
+class TransportCreateView(generics.CreateAPIView):
     queryset = Transports.objects.all()
     serializer_class = TransportsSerializer
     permission_classes = [TransportListPermission, ]
@@ -29,13 +29,3 @@ class TransportAdminViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser, ]
     filter_backends = [DjangoFilterBackend, ]
     filterset_class = TransportAdminFilter
-    # def get_queryset(self):
-    #     """
-    #     Optionally restricts the returned purchases to a given user,
-    #     by filtering against a `username` query parameter in the URL.
-    #     """
-    #     queryset = Purchase.objects.all()
-    #     username = self.request.query_params.get('username')
-    #     if username is not None:
-    #         queryset = queryset.filter(purchaser__username=username)
-    #     return queryset

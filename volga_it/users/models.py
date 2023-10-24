@@ -3,7 +3,7 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    balance = models.FloatField(verbose_name='Баланс пользователя')
+    balance = models.FloatField(null=True, blank=True, verbose_name='Баланс пользователя')
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []

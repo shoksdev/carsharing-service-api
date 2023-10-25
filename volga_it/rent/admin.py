@@ -5,4 +5,4 @@ from .models import Rent
 
 @admin.register(Rent)
 class RentAdmin(admin.ModelAdmin):
-    list_display = ('lat', 'long', 'radius', 'type')
+    list_display = ('lat', 'long', 'radius',)

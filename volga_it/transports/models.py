@@ -15,14 +15,12 @@ class Transports(models.Model):
     color = models.CharField(max_length=50, verbose_name='Цвет транспорта')
     identifier = models.CharField(max_length=20, verbose_name='Номерной знак')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
-    latitude = models.DecimalField(default=0, max_digits=5, decimal_places=2,
+    latitude = models.DecimalField(default=0, max_digits=9, decimal_places=6,
                                    verbose_name='Географическая широта местонахождения транспорта')
-    longitude = models.DecimalField(default=0, max_digits=5, decimal_places=2,
+    longitude = models.DecimalField(default=0, max_digits=9, decimal_places=6,
                                     verbose_name='Географическая долгота местонахождения транспорта')
-    minute_price = models.DecimalField(default=0, max_digits=5, decimal_places=2, blank=True, null=True,
-                                       verbose_name='Цена аренды за минуту')
-    day_price = models.DecimalField(default=0, max_digits=5, decimal_places=2, blank=True, null=True,
-                                    verbose_name='Цена аренды за сутки')
+    minute_price = models.FloatField(default=0, blank=True, null=True, verbose_name='Цена аренды за минуту')
+    day_price = models.FloatField(default=0, blank=True, null=True, verbose_name='Цена аренды за сутки')
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Хозяин транспорта')
 
     def __str__(self):

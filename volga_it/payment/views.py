@@ -6,6 +6,7 @@ from users.models import CustomUser
 
 
 def change_balance(pk):
+    """Функция для изменения баланса пользователя"""
     hesoyam = 250000
     user = CustomUser.objects.get(id=pk)
     user.balance += hesoyam
@@ -14,6 +15,7 @@ def change_balance(pk):
 
 @api_view(['POST'])
 def payment_controller(request, pk):
+    """Функция для изменения баланса себе или всем пользователям"""
     if request.user.is_staff:
         body = json.loads(request.body)
         choice = body.get('choice')

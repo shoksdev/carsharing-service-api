@@ -6,6 +6,7 @@ from transports.models import Transports
 
 
 class Rent(models.Model):
+    """Модель для хранения аренды"""
     PRICE_TYPES = [
         ('M', 'Minutes'),
         ('D', 'Days'),
@@ -19,4 +20,4 @@ class Rent(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Арендатор')
 
     def __str__(self):
-        return f'{self.transport}:{self.time_start}-{self.time_end}'
+        return f'{self.transport}:{self.time_start}-{self.time_end}'  # Сделал приятный глазу вывод

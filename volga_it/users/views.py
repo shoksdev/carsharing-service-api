@@ -3,14 +3,14 @@ from rest_framework import viewsets, generics, mixins
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from djoser.views import UserViewSet
 
-from users.models import CustomUser
-
 from .filters import AccountAdminFilter
 from .serializers import AccountSerializer
+from users.models import CustomUser
 from transports.paginations import CustomPagination
 
 
 class RetrieveAccountAPIView(generics.RetrieveAPIView):
+    """Выводит информацию о текущем пользователе"""
     serializer_class = AccountSerializer
     permission_classes = [IsAuthenticated, ]
 
@@ -19,6 +19,7 @@ class RetrieveAccountAPIView(generics.RetrieveAPIView):
 
 
 class UpdateAccountAPIView(generics.UpdateAPIView):
+    """Позволяет изменить данные о текущем пользователе"""
     serializer_class = AccountSerializer
     permission_classes = [IsAuthenticated, ]
 
@@ -27,10 +28,12 @@ class UpdateAccountAPIView(generics.UpdateAPIView):
 
 
 class RegisterAccountViewSet(UserViewSet):
+    """Создаёт аккаунт, проверь работу"""
     queryset = CustomUser.objects.all()
 
 
 class AccountAdminViewSet(viewsets.ModelViewSet):
+    """Вьюсет, отвечающий за взаимодействие с моделью Кастомного Пользователя (CRUD), доступно только администратору"""
     queryset = CustomUser.objects.all()
     serializer_class = AccountSerializer
     pagination_class = CustomPagination

@@ -28,7 +28,7 @@ class UpdateAccountAPIView(generics.UpdateAPIView):
 
 
 class RegisterAccountViewSet(UserViewSet):
-    """Создаёт аккаунт, проверь работу"""
+    """Создаёт аккаунт, был переопределен для изменения пути"""
     queryset = CustomUser.objects.all()
 
 

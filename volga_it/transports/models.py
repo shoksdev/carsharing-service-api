@@ -4,6 +4,7 @@ from users.models import CustomUser
 
 
 class Transports(models.Model):
+    """Модель Транспорты"""
     TRANSPORT_TYPES = [
         ('C', 'Car'),
         ('B', 'Bike'),

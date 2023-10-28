@@ -8,6 +8,6 @@ router.register(r'admin/transport', TransportAdminViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('', TransportCreateView.as_view(), name='transport-create'),
-    path('<int:pk>/', TransportRetrieveUpdateDestroyView.as_view(), name='transport-object'),
+    path('transport/', TransportCreateView.as_view(), name='transport-create'),
+    path('transport/<int:pk>/', TransportRetrieveUpdateDestroyView.as_view(), name='transport-object'),
 ]

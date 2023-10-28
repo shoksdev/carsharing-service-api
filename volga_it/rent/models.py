@@ -1,7 +1,6 @@
 from django.db import models
 
 from users.models import CustomUser
-
 from transports.models import Transports
 
 

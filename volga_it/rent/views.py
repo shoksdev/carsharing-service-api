@@ -3,7 +3,7 @@ from datetime import datetime
 from django.db.models import Q
 from django.http import JsonResponse
 from geopy.distance import geodesic
-from rest_framework import mixins, viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -18,7 +18,7 @@ from transports.serializers import TransportsSerializer
 
 
 class RentListAPIView(ListAPIView):
-    """Выводит доступные для аренды транспорта"""
+    """Выводит доступный для аренды транспорт"""
     serializer_class = TransportsSerializer
 
     def get_queryset(self):
@@ -79,54 +79,71 @@ class RentTransportHistoryAPIView(ListAPIView):
 
 @api_view(['POST'])
 def new_rent(request, pk):
-    """Создаёт аренду машины, получая только тип аренды (Минуты/Дни)"""
-    transport = Transports.objects.get(id=pk)
-    if request.user.is_authenticated and transport.owner != request.user:
-        body = json.loads(request.body)
-        rent_type = body.get('rent_type')
+    """Создаёт аренду транспорта, получая только тип аренды (Минуты/Дни)"""
+    try:
+        transport = Transports.objects.get(id=pk)
+        if request.user.is_authenticated and transport.owner != request.user:
+            body = json.loads(request.body)
+            rent_type = body.get('rent_type')
 
-        rent_data = {
-            "transport_id": pk,
-            "time_start": datetime.now(),
-            "price_type": rent_type,
-            "user": request.user
-        }
+            rent_data = {
+                "transport_id": pk,
+                "time_start": datetime.now(),
+                "price_type": rent_type,
+                "user": request.user
+            }
 
-        Rent.objects.create(**rent_data)
+            Rent.objects.create(**rent_data)
 
+            message = {
+                "message": "Аренды транспорта начата!"
+            }
+            return JsonResponse(message, status=201)
+        else:
+            message = {
+                "message": "Вы не можете арендовать собственную машину!"
+            }
+            return JsonResponse(message, status=403)
+    except:
         message = {
-            "message": "Аренды машины начата!"
+            "message": "Вы не можете арендовать этот транспорт, так как его не существует!"
         }
-        return JsonResponse(message, status=201)
-    else:
-        message = {
-            "message": "Вы не можете арендовать собственную машину!"
-        }
-        return JsonResponse(message, status=403)
+        return JsonResponse(message, status=404)
 
 
 @api_view(['POST'])
 def rent_end(request, pk):
-    """Завершает аренду машины, присваивает в объект Аренды время окончания и в объект Транспорта его текущее
+    """Завершает аренду транспорта, присваивает в объект Аренды время окончания и в объект Транспорта его текущее
      местоположение (широта и долгота)"""
-    rent = Rent.objects.get(id=pk)
-    if request.user == rent.user:
-        body = json.loads(request.body)
-        lat = body.get('lat')
-        long = body.get('long')
+    try:
+        rent = Rent.objects.get(id=pk)
+        if request.user == rent.user:
+            body = json.loads(request.body)
+            lat = body.get('lat')
+            long = body.get('long')
 
-        transport = Transports.objects.get(id=rent.transport_id)
+            transport = Transports.objects.get(id=rent.transport_id)
 
-        rent.time_end = datetime.now()
-        transport.latitude = lat
-        transport.longitude = long
-        rent.save()
-        transport.save()
+            rent.time_end = datetime.now()
+            transport.latitude = lat
+            transport.longitude = long
+            rent.save()
+            transport.save()
 
+            message = {
+                "message": "Аренда транспорта завершена!"
+            }
+            return JsonResponse(message, status=200)
+        else:
+            message = {
+                "message": "Вы не можете завершить аренду данного транспорта, так как вы не являетесь его арендатором!"
+            }
+            return JsonResponse(message, status=403)
+    except:
         message = {
-            "message": "Аренды машины завершена!"
+            "message": "Вы не можете арендовать этот транспорт, так как его не существует!"
         }
-        return JsonResponse(message, status=200)
+        return JsonResponse(message, status=404)
 
 
 '''Rent Admin'''
@@ -152,29 +169,41 @@ class AdminRentTransportHistoryAPIView(ListAPIView):
 
 @api_view(['POST'])
 def rent_end_admin(request, pk):
-    """Завершает аренду машины, присваивает в объект Аренды время окончания и в объект Транспорта его текущее
+    """Завершает аренду транспорта, присваивает в объект Аренды время окончания и в объект Транспорта его текущее
      местоположение (широта и долгота), доступно только администратору"""
-    rent = Rent.objects.get(id=pk)
-    if request.user.is_staff or request.user == rent.user:
-        body = json.loads(request.body)
-        lat = body.get('lat')
-        long = body.get('long')
+    try:
+        rent = Rent.objects.get(id=pk)
+        if request.user.is_staff or request.user == rent.user:
+            body = json.loads(request.body)
+            lat = body.get('lat')
+            long = body.get('long')
 
-        transport = Transports.objects.get(id=rent.transport_id)
+            transport = Transports.objects.get(id=rent.transport_id)
 
-        rent.time_end = datetime.now()
-        transport.latitude = lat
-        transport.longitude = long
-        rent.save()
-        transport.save()
+            rent.time_end = datetime.now()
+            transport.latitude = lat
+            transport.longitude = long
+            rent.save()
+            transport.save()
 
+            message = {
+                "message": "Аренды транспорта завершена!"
+            }
+            return JsonResponse(message, status=200)
+        else:
+            message = {
+                "message": "Вы не можете завершить аренду данного транспорта, так как вы не являетесь его арендатором!"
+            }
+            return JsonResponse(message, status=403)
+    except:
         message = {
-            "message": "Аренды машины завершена!"
+            "message": "Вы не можете завершить аренду данного транспорта, так как его не существует!"
         }
-        return JsonResponse(message, status=200)
+        return JsonResponse(message, status=404)
 
 
-class AdminRentViewSet(viewsets.ModelViewSet):
+class AdminRentViewSet(mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                       mixins.DestroyModelMixin, viewsets.GenericViewSet):
     """Вьюсет, который отвечает за взаимодействие с моделью Аренды (CRUD), доступно только администратору"""
     queryset = Rent.objects.all()
     serializer_class = RentSerializer

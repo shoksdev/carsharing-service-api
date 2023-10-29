@@ -3,7 +3,8 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    balance = models.FloatField(null=True, blank=True, verbose_name='Баланс пользователя')
+    balance = models.FloatField(default=0, null=True, blank=True, verbose_name='Баланс пользователя')
+    # Используем аргумент "default", чтобы работала функция payment_controller
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []

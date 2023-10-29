@@ -5,39 +5,54 @@ from rest_framework.decorators import api_view
 from users.models import CustomUser
 
 
-def change_balance(pk):
+def change_balance(user):
     """Функция для изменения баланса пользователя"""
     hesoyam = 250000
-    user = CustomUser.objects.get(id=pk)
-    user.balance += hesoyam
-    user.save()
+    old_user = user
+    old_user.balance += hesoyam
+    old_user.save()
 
 
 @api_view(['POST'])
 def payment_controller(request, pk):
     """Функция для изменения баланса себе или всем пользователям"""
-    if request.user.is_staff:
-        body = json.loads(request.body)
-        choice = body.get('choice')
-        if choice == 'Всем':
-            users_ids = CustomUser.objects.values_list('id', flat=True)
-            for user_id in users_ids:
-                change_balance(user_id)
-            message = {
-                'message': 'Вы успешно добавили на счета всех пользователей 250.000$!'
-            }
-        elif choice == 'Себе':
-            change_balance(pk)
+    try:
+        user = CustomUser.objects.get(id=pk)
+
+        if request.user.is_staff:
+            body = json.loads(request.body)
+            choice = body.get('choice')
+            if choice == 'Всем':
+                users = CustomUser.objects.all()
+                for old_user in users:
+                    change_balance(old_user)
+                message = {
+                    'message': 'Вы успешно добавили на счета всех пользователей 250.000$!'
+                }
+            elif choice == 'Себе':
+                change_balance(user)
+                message = {
+                    'message': 'Вы успешно добавили на свой баланс 250.000$!'
+                }
+            else:
+                message = {
+                    'message': 'Вы допустили ошибку, выберите кому вы хотите изменить баланс(Себе или Всем)!'
+                }
+        elif request.user.is_authenticated and request.user == user:
+            change_balance(user)
+
             message = {
                 'message': 'Вы успешно добавили на свой баланс 250.000$!'
             }
-        else:
+        elif request.user.is_authenticated and request.user != user:
             message = {
-                'message': 'Вы допустили ошибку, выберите кому вы хотите изменить баланс(Себе или Всем)!'
+                'message': 'Вы можете изменить баланс только себе!'
             }
-    elif request.user.is_authenticated:
-        change_balance(pk)
+
+        return JsonResponse(message, status=200)
+    except:
         message = {
-            'message': 'Вы успешно добавили на свой баланс 250.000$!'
+            'message': 'Пользователь не найден, попробуйте ещё раз!'
         }
-    return JsonResponse(message, status=200)
+
+        return JsonResponse(message, status=404)

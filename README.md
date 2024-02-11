@@ -44,7 +44,7 @@ Realize REST API of carsharing, for convenient car rental.
 
 ---
 
-1) **Clone the repository**: ```git clone https://github.com/shoksdev/simple_buy.git```  
+1) **Clone the repository**: ```git clone https://github.com/shoksdev/carsharing-service-api.git```  
 2) **Go to the project folder**: ```cd volga_it```  
 3) **Start the project with superuser creation**: ```docker-compose run django python manage.py createsuperuser```  
 4) **Bring the project**: ```docker-compose up```  
